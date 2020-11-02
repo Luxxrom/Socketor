@@ -8,6 +8,10 @@ public class Phone {
     BufferedReader reader;
     BufferedWriter writer;
 
+    public Phone(Phone phone) {
+        this.server = phone.server;
+    }
+
     public Phone(String port) {  //server
 
         try {
