@@ -15,7 +15,6 @@ public class Socketor {
         if (args[0].equals("server")) socketor.runServer(args[1], args[2], args[3]);
 
         if (args[0].equals("client")) socketor.runClient(args[1], args[2], args[3], args[4]);
-
     }
 
     private void runServer(String port, String threadsCount, String operation) throws IOException {
@@ -27,9 +26,7 @@ public class Socketor {
 
         for (int j = 0; j < threads; j++)
             new Thread(new ServerPhone(new Phone(phone), operation)).start();
-
-
-     }
+    }
 
     private void runClient(String ip, String port, String a, String b) throws IOException {
 
@@ -39,7 +36,5 @@ public class Socketor {
         String answer = phone.readLine();
         System.out.println(answer);
         phone.close();
-
     }
-
- }
+}

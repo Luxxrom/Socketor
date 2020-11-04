@@ -42,9 +42,6 @@ public class ServerPhone implements Runnable {
             case "*":
             default:
                 return x * y;
-
         }
-
     }
-
 }
