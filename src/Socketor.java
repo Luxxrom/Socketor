@@ -1,5 +1,3 @@
-import Socket.Phone;
-
 import java.io.*;
 
 public class Socketor {

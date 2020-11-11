@@ -1,5 +1,3 @@
-package Socket;
-
 import java.io.*;
 import java.net.*;
 
