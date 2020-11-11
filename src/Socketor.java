@@ -1,3 +1,5 @@
+import Socket.Phone;
+
 import java.io.*;
 
 public class Socketor {
@@ -12,20 +14,36 @@ public class Socketor {
 
         Socketor socketor = new Socketor();
 
-        if (args[0].equals("server")) socketor.runServer(args[1], args[2], args[3]);
+        if (args[0].equals("server")) socketor.runServer(args[1], args[2]);
 
         if (args[0].equals("client")) socketor.runClient(args[1], args[2], args[3], args[4]);
     }
 
-    private void runServer(String port, String threadsCount, String operation) throws IOException {
+    private void runServer(String port, String operation) {
 
-        int threads = Integer.parseInt(threadsCount);
-        Phone phone = new Phone(port);
+        Phone phoneServer = new Phone(port);
 
         System.out.println("Started server with " + operation + " on " + port);
 
-        for (int j = 0; j < threads; j++)
-            new Thread(new ServerPhone(new Phone(phone), operation)).start();
+        while (true) {
+            Phone phone = new Phone(phoneServer);
+            System.out.println("Client accepted");
+            new Thread(() -> {
+                String a = phone.readLine();
+                String b = phone.readLine();
+                int result = calculate(operation, a, b);
+                String message = a + " " + operation + " " + b + " = " + result;
+                try {
+                    Thread.sleep(7000);
+                } catch (InterruptedException e) {
+                }
+                phone.writeLine(message);
+                System.out.println("Accepted: " + message);
+                phone.close();
+            }).start();
+            if (Math.random() == 0.0) break;
+        }
+        phoneServer.closeServer();
     }
 
     private void runClient(String ip, String port, String a, String b) throws IOException {
@@ -37,4 +55,22 @@ public class Socketor {
         System.out.println(answer);
         phone.close();
     }
+
+    private int calculate(String operation, String a, String b) {
+
+        int x = Integer.parseInt(a);
+        int y = Integer.parseInt(b);
+        switch (operation) {
+            case "+":
+                return x + y;
+            case "-":
+                return x - y;
+            case "/":
+                return x / y;
+            case "*":
+            default:
+                return x * y;
+        }
+    }
+
 }
